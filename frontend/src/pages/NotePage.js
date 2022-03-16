@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { ReactComponent as ArrowLeft } from '../assets/arrow-left.svg';
 
 const NotePage = ({match, history}) => {
@@ -29,6 +28,16 @@ const NotePage = ({match, history}) => {
         })
     }
 
+    let deleteNote = async () =>{
+        fetch(`/api/notes/${noteId}/delete`, {
+            method:'DELETE',
+            'headers': {
+                'content-type': 'application/json'
+            }
+        })
+        history.push('/')
+    }
+
     let handleSubmit = () =>{
         updateNote()
         history.push('/')
@@ -41,7 +50,9 @@ const NotePage = ({match, history}) => {
                 
                     <ArrowLeft onClick={handleSubmit}/>
                                
-            </h3>            
+            </h3>      
+            <button onClick={deleteNote} style={{ float:`right` }}>Delete</button>
+      
         </div>
         <textarea onChange={(e) =>{setNote({...note, 'body': e.target.value})}} defaultValue={note?.body}></textarea>
     </div>)
